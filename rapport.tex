@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{blindtext}
+\usepackage{graphicx}
+\usepackage{titling}
+
+\begin{document}
+
+\title{Travail pratique \#1 - (IFT2245)} 
+
+\author{Wa\"{e}l ABOU ALI (p20034365)}
+%\textsrc{\LARGE DÉPARTEMENT D’INFORMATIQUE ET DE RECHERCHE OPÉRATIONNELLE \\
+%FACULTÉ DES ARTS ET DES SCIENCES
+ %}
+%\textsrc{\LARGE TRAVAIL PRÉSENTÉ À LIAM PAULL \\
+%\\DANS LE CADRE DU COURS \\SYSTÈMES D’EXPLOITATION
+ %}
+\date{\today}
+
+\begin{titlingpage}
+%\textsc{\LARGE UNIVERSITÉ DE MONTRÉAL}
+\maketitle
+
+\end{titlingpage}
+
+
+
+
+
+
+%\section{Rapport}
+
+\section{Niveau personnel}
+
+\paragraph{Normalement j'étais supposé d'avoir un partenaire pour faire ce travail mais puisque j'ai déjà contacté plusieurs personnes dans le forum pour se mettre en équipe. J'avais un qui m'a affirmé que nous serons ensemble et j'ai commencé à travailler en lui envoyant des nouvelles sur le travail mais j'ai jamais entendu des nouvelles de son part. Dans le même temps, il y avait quelqu'un d'autre qui m'a contacté par courriel pour se mettre en équipe. Je lui ai demandé que j'ai donné mon mot à quelqu'un d'autre mais puisque j'ai jamais entendu de son part, je vais lui envoyer un message et s'il ne me répond pas, on pourrait se mettre ensemble. Mais pour la deuxième fois, j'ai rien entendu de lui. Alors, en ce moment, j'ai décidé que je vais prendre le risque et travailler seul sur ce projet.}
+
+\section{Difficultés}
+\begin{enumerate}
+\item Allocation mémoire.
+\item Librairies.
+\item Les builtins et les commandes à implémenter.
+\item Les structures complexes et ses applications.
+\end{enumerate}
+
+\paragraph{1. À part de faire le tp seul, mon problème majeur est dans l'allocation de mémoire dans C. Depuis mon temps dans le cour de IFT2035, l'allocation de mémoire est le plus grand défis que j'ai dans un projet quelconque. Puisque j'ai décidé d'avoir les données des instructions comme étant sauvegardé dans un grand buffer qui comtient les instructions. Donc j'ai eu quelques problèmes avec les pointeurs et l'allocation de mémoire du programme que j'ai essayé de l'éliminer en utilisant valgrind.}
+
+\paragraph{2. Pour mieux comprendre le fonctionnement de libraries du C, j'ai pris quelques temps à lire ce que chacune de ces librairies fait. Le but de lire le fonctionnement de ces libraires était de comprendre comment je vais faire la synchronisation entre ces librairies pour obtenir un résultat désiré.}
+
+\paragraph{3. Un point de force en C est la présence des commandes qui sont nommées des builtins. Ces fonctions pourraient être utilisées en appelant la famille exec. D'autre part, il y en a d'autres fonctions qui pourraient être appelées directement par C comme mkdir, rmdir, gethostname et username par exemple. Ces fonctions m'ont aidé beaucoup au temps et elles m'a sauvé beaucoup de temps à les implémenter si je n'avais pas su leur présence dès le début.}
+
+\paragraph{4. Le truc initial qui m'a pris beaucoup de temps dans C était de choisir lequel des structures je vais l'utiliser dans ce tp. J'étais compris entre deux structures qui étaient à mon avis les meilleurs à appliquer les démarches de ce tp. La première est la liste doublement chaînée qui contiendra la première instruction comme étant la tête de la liste et lier les prochaines instructions dans la liste. La deuxième(que j'ai décidé de la prendre) est un grand buffer qui représente une liste des instructions parsées par le programme et qui sont en attente à les exécuter une par une selon besoin(ready queue). J'ai décidé de prendre cette structure puisque c'était le but initial de ce tp de nous faire familiariser avec ces structures.}
+
+\section{Les surprises}
+\paragraph{La plus grande surprise que j'ai vu dans ce tp que j'avais toujours l'impression que la création d'un power-shell, terminal ou un bash est très difficile. Cette impression est disparue au moment que j'ai commencé à se progresser dans ce tp. Biensûr c'était plus facile en utilisant la famille exec pour exécuter le code mais en général le tp était bien amusant pour moi. Le seul point de stresse était le sentiment de ne pas remettre le tp au temps. L'autre surprise que le shell est bien lié puisque je pourrais le représenter comme étant un 'domino effect' et que à chaque étape que tu termines, tu trouveras tout de suite des réponses aux parties qui manquent du tp.}
+
+
+\section{Les choix}
+\paragraph{Comme j'ai expliqué d'avance le grand moment ou le grand chois que j'ai pris dans cet exercise était de choisir lequel des structures va contenir les données obtenues par l'input. Au début, j'étais plus concerné par les listes doublement chaînées qui contiendront les données de chacune de instructions sous forme d'un noeud qui sera lié à celui à son prev et son next. J'ai déjà commencé à coder la structure d'une liste chaînée jusqu'au moment que je pensé à une structure plus simple nommé ("instructions list"). Le but de cette structure était simplement de créer un grand buffer qui contiendra la liste complète des instructions à traiter sur la ligne de commande. Les attributs args(qui représente les arguments), command(pour la commande à traiter(args[0])) et ainsi de suite.}
+
+\paragraph{Aussi, j'ai choisi d'utiliser des structures qui traitent les exceptions comme étant des locks(mutex). Ces structures vont traiter les cas spéciaux comme if qui devrait être suivi par un do ou un if seulement. De même, les do suivis par un done. Les and sont aussi considérés comme des exceptions et c'est pour cela qui j'ai utilisé "and\_result" comme un verrou. Si c'est vrai j'arrête l'exécution et je le reinitialise à 0 pour la nouvelle commande.}
+
+\section{Les points de force et faiblesse}
+\paragraph{Les points de force: Ce projet à l'abilité de traiter les commandes de base comme ls, grep, man, tail, cat et ainsi de suite. Aussi, il pourrait traiter d'autres commandes comme cd pour changer le repertoire, pwd pour afficher l'extension, about pour afficher un logo et le nom de l'auteur, screenfetch pour le logo du shell et exit ou z pour quitter le shell. De même, ce programme est codé pour traiter les instructions complexes comme la redirection, le piping, les opérateurs(and et or) et les ifs.}
+
+\paragraph*{Les points de faiblesse: Comme j'ai mentionné avant, le point de faiblesse majeur dans ce tp est l'allocation de mémoire puisque je devrait libérer les espaces assignées déjà par malloc. À part de ce problème, j'ai testé mon tp pour l'extrême des cas avec les if et les and. L'utilisation d'un langage stricte en faisant le parsing des instructions reçues en utilisant des variable liées à chacune des instructions. Un drapeau(flag) sera annocé si une des conditions à respecter n'est pas satisfaite.}
+
+\section{Comment ça fonctionne?}
+\paragraph{L'idée de ce programme est basé sur le principe "read-parse-execute".}
+
+\begin{enumerate}
+\item{La fonction responsable pour read est "lire\_ligne" qui va sauvegarder les données reçues dans une variable(line).} 
+\item{La fonction "parser\_ligne" va lire la ligne sous forme des tokens. Ces tokens seront séparés par les delimiteurs actuels de phrase comme nouvelle ligne, espace blanche, etc. En bref, la fonction va allouer au début de l'espace à un buffer des instructions. Ensuite, une allocation de mémoire pour la première instruction sera aussi réalisée. Un toisième malloc sera utilisé pour allouer de l'espace à args pour recevoir les arguments de chacune des instructions. La fonction builtin strtok sera utilisée pour tokenizer le prochain mot. Si le prochain mot n'est pas nul, donc la ligne n'est pas vide et la boucle est divisée en 3 parties.}
+\begin{enumerate}
+\item{La première partie, si c'est le premier mot de l'instruction et c'est un "if", "do" ou "done", on va vérifier les autres conditions. Le ';' est présent pour vérifier que l'instruction est terminée et donc remplacer le point-virgule par un fin de ligne.}
+
+\item{La deuxième partie est responsable des opérateurs binaires comme "\&\&", "\textbar\textbar" et "\textbar" sans oublier le point-virgule lié à une instruction normale non le "if". La troisième partie pour la redirection qui se trouve entre les arguments, si l'instruction contenant les symboles de redirection "\textgreater" et "\textless", donc le verrou sera devrouillé et le parser va enlever le symbol pour ne pas avoir un code d'erreur en actualisant le verrou à la valeur assignée pour un read ou un write. Le dernier bloc est l'implémentation du symbole de background pour indiquer que l'instruction sera en background.}
+
+\item{La troisième partie est pour les arguments qui se trouvent dans les instructions. Ces arguments ne sont pas ni au début ni à la fin d'une instruction.}
+\end{enumerate}
+
+\item{L'étape prochaine est l'exécution des instructions à partir d'executer instructions. Si la commande est une builtin, donc command options sera appelée. Sinon mais que c'est le deuxième terme d'un et qui a retourné faux. Donc un signal pour terminer le code sera fait. Sinon, alors ça sera un if. Si ce n'est pas parmi ces options, alors c'est une instruction de background.}
+
+\item{L'étape prochaine est spécifiée à shell commands. Sa première partie est le forking pour produire un enfant child du parent qui va s'occuper de la lecture ou l'écriture des données selon le code donnée. Si c'est une commande normale sans lecture ni écriture, alors, en considérant que la commande n'est pas en background, execvp sera appelé avec la commande (args[0]) et les arguments qui se trouvent à la suite. Sinon alors l'instruction est en background et le système va afficher un message qui indique que l'opération est en background en mentionnant le code de l'opération.}
+
+\item{À la fin de chaque ligne du code, la fonction 'reset\_data' sera appelée pour nettoyer la mémoire et libérer les espaces allouées par malloc. Pour une sortie prematurée, il suffit d'écrire z ou exit sur la ligne de commande pour quitter le programme.}
+\end{enumerate}
+
+\section{Références}
+\begin{enumerate}
+\item{https://github.com/kaustubhhiware/Cshell/blob/master/shell.c}
+\item{https://brennan.io/2015/01/16/write-a-shell-in-c/}
+\item{https://www.geeksforgeeks.org/making-linux-shell-c/}
+\item{https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf}
+\end{enumerate}
+\end{document} 
